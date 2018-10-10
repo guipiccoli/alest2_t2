@@ -19,15 +19,15 @@ def hex2bin(hex):
         return '1000'
     if hex == '9':
         return '1001'
-    if hex == 'a':
+    if hex == 'a' or 'A':
         return '1010'
-    if hex == 'b':
+    if hex == 'b' or 'B':
         return '1011'
-    if hex == 'c':
+    if hex == 'c' or 'C':
         return '1100'
-    if hex == 'd':
+    if hex == 'd' or 'D':
         return '1101'
-    if hex == 'e':
+    if hex == 'e' or 'E':
         return '1110'
-    if hex == 'f':
+    if hex == 'f' or 'F':
         return '1111'
