@@ -10,62 +10,134 @@ class Node:
         self.direita = direita
         self.inferior = inferior
         self.esquerda = esquerda
+        self.flag = 0
+        self.entrada = False
+        self.saida = False
+    def __repr__(self):
+     return str(self.__dict__)
 
-entrada = None
-saida = None
+
+lst_nodos = []
+
+node_entrada = None
+node_saida = None
 
 def labirinto(list):
-    global entrada
-    global saida
+    global node_entrada
+    global node_saida
+    global lst_nodos
     for i in range(len(list)):
         for elem in list[i]:
+            nodo = Node(elem[0],elem[1],elem[2],elem[3])
+            lst_nodos.append(nodo)
+            #Achar entrada e saida do labirinto <-- recebe None e seta o booleano do construtor
             if i == 0:
-                Node(elem[0],elem[1],elem[2],elem[3])
-                if elem[0] == '0':
-                    entrada = elem
+                #Vazio para todos nodos na primeira linha
+                if nodo.superior == '0':
+                    nodo.entrada = True
+                    node_entrada = nodo
+                nodo.superior = None
 
             elif i == len(list)-1:
-                for elem in list[i]:
-                    if elem[2] == '0':
-                        saida = elem
+                #Vazio para todos nodos na ultima linha
+                if nodo.inferior == '0':
+                    nodo.saida = True
+                    node_saida = nodo
+                nodo.inferior = None
 
-            elif elem[3] == '0' and list[0] or (list[len(list)-1] and elem[1] == '0'):
-                if entrada == None:
-                    entrada = elem
+            elif nodo.esquerda == '0' and list[0]:
+                #Vazio para todos na coluna da esquerda
+                nodo.esquerda = None
+                if node_entrada == None:
+                    nodo.entrada = True
+                    node_entrada = nodo
                 else:
-                    saida = elem
-    print(entrada)
-    print(saida)
+                    nodo.saida = True
+                    node_saida = nodo
 
+            elif nodo.direita == '0' and list[len(list)-1]:
+                #Vazio para todos na coluna da direita
+                nodo.direita = None
+                if node_entrada == None:
+                    nodo.entrada = True
+                    node_entrada = nodo
+                else:
+                    nodo.saida = True
+                    node_saida = nodo
+
+    #print(lst_nodos)
+    #print(list)
+    lista_adjacencia(lst_nodos)
+    print(caminha(node_entrada))
+    #print(node_entrada)
+    #print(node_saida)
+
+
+def lista_adjacencia(lst_nodos):
+    for i in range(len(lst_nodos)):
+        #Se superior não tiver parede recebe o nodo acima ou None
+        if lst_nodos[i].superior == '1':
+            lst_nodos[i].superior = None
+        else:
+            if(lst_nodos[i].superior != None):
+                lst_nodos[i].superior = lst_nodos[i-int(nm)]
+
+        #Se esquerda não tiver parede recebe o nodo a esquerda ou None
+        if lst_nodos[i].esquerda == '1':
+            lst_nodos[i].esquerda = None
+        else:
+            lst_nodos[i].esquerda = lst_nodos[i-1]
+
+        #Se direita não tiver parede recebe o nodo a direita ou None
+        if lst_nodos[i].direita == '1':
+            lst_nodos[i].direita = None
+        else:
+            lst_nodos[i].direita = lst_nodos[i+1]
+
+        #Se inferior não tiver parede recebe o nodo abaixo ou None
+        if lst_nodos[i].inferior == '1':
+            lst_nodos[i].inferior = None
+        else:
+            if(lst_nodos[i].inferior != None):
+                lst_nodos[i].inferior = lst_nodos[i+int(nm)]
+
+caminhamento = []
+res = 0
 def caminha(node):
-    if node == entrada2:
-        return 1
+    global res
+
+    caminhamento.append(node)
+
+    if node.saida == True:
+        return res +1
     node.flag = 1
 
-    if node.cima != '1' and node.cima.flag == 0:
-        res = caminha(node.cima)
+    if node.superior != None and node.superior.flag == 0:
+        res = caminha(node.superior)
         if res > 0:
             return 1 + res
-    if node.direita != '1' and node.direita.flag == 0:
+    if node.direita != None and node.direita.flag == 0:
         res = caminha(node.direita)
         if res > 0:
             return 1 + res
-    if node.baixo != '1' and node.baixo.flag == 0:
-        res = caminha(node.baixo)
+    if node.inferior != None and node.inferior.flag == 0:
+        res = caminha(node.inferior)
         if res > 0:
             return 1 + res
-    if node.esquerda != '1' and node.esquerda.flag == 0:
+    if node.esquerda != None and node.esquerda.flag == 0:
         res = caminha(node.esquerda)
         if res > 0:
             return 1 + res
 
     node.flag = 2
-    return 0
+    return res
 
+nm = 0
 def main ():
     f = open('t2-casos/teste.txt', 'r')
     data = f.readlines()
     elem = []
+    global nm
     elementos = []
     binary_string =[]
     nm = data[0].split(' ')[0]
@@ -75,4 +147,7 @@ def main ():
         elementos.append(elem[i-1])
         binary_string.append(list(map(lambda x:cvs.hex2bin(x),elem[i-1])))
     labirinto(binary_string)
+
+    global caminhamento
+    print(caminhamento)
 if __name__ == "__main__": main()
