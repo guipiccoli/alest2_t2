@@ -64,13 +64,17 @@ def labirinto(list):
                 else:
                     nodo.saida = True
                     node_saida = nodo
+            if(nodo.saida == True):
+                print(nodo)
+            if(nodo.entrada == True):
+                print(nodo)
 
     #print(lst_nodos)
     #print(list)
-    lista_adjacencia(lst_nodos)
-    print(caminha(node_entrada))
     #print(node_entrada)
     #print(node_saida)
+    lista_adjacencia(lst_nodos)
+    print(caminha(node_entrada, node_saida))
 
 
 def lista_adjacencia(lst_nodos):
@@ -103,29 +107,32 @@ def lista_adjacencia(lst_nodos):
 
 caminhamento = []
 res = 0
-def caminha(node):
+def caminha(node, saida):
     global res
 
     caminhamento.append(node)
-
-    if node.saida == True:
+    if node == saida:
         return res +1
     node.flag = 1
 
     if node.superior != None and node.superior.flag == 0:
-        res = caminha(node.superior)
+        print("cima")
+        res = caminha(node.superior, saida)
         if res > 0:
             return 1 + res
     if node.direita != None and node.direita.flag == 0:
-        res = caminha(node.direita)
+        print("direita")
+        res = caminha(node.direita, saida)
         if res > 0:
             return 1 + res
     if node.inferior != None and node.inferior.flag == 0:
-        res = caminha(node.inferior)
+        print("desce")
+        res = caminha(node.inferior, saida)
         if res > 0:
             return 1 + res
     if node.esquerda != None and node.esquerda.flag == 0:
-        res = caminha(node.esquerda)
+        print("esquerda")
+        res = caminha(node.esquerda, saida)
         if res > 0:
             return 1 + res
 
@@ -148,6 +155,5 @@ def main ():
         binary_string.append(list(map(lambda x:cvs.hex2bin(x),elem[i-1])))
     labirinto(binary_string)
 
-    global caminhamento
-    print(caminhamento)
+    #print(caminhamento)
 if __name__ == "__main__": main()
