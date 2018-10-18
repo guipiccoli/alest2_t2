@@ -34,14 +34,14 @@ def labirinto(list):
             if i == 0:
                 #Vazio para todos nodos na primeira linha
                 if nodo.superior == '0':
-                    nodo.entrada = True
+                    #nodo.entrada = True
                     node_entrada = nodo
                 nodo.superior = None
 
             elif i == len(list)-1:
                 #Vazio para todos nodos na ultima linha
                 if nodo.inferior == '0':
-                    nodo.saida = True
+                    #nodo.saida = True
                     node_saida = nodo
                 nodo.inferior = None
 
@@ -49,35 +49,34 @@ def labirinto(list):
                 #Vazio para todos na coluna da esquerda
                 nodo.esquerda = None
                 if node_entrada == None:
-                    nodo.entrada = True
+                    #nodo.entrada = True
                     node_entrada = nodo
                 else:
-                    nodo.saida = True
+                    #nodo.saida = True
                     node_saida = nodo
 
             elif nodo.direita == '0' and list[len(list)-1]:
                 #Vazio para todos na coluna da direita
                 nodo.direita = None
                 if node_entrada == None:
-                    nodo.entrada = True
+                    #nodo.entrada = True
                     node_entrada = nodo
                 else:
-                    nodo.saida = True
+                    #nodo.saida = True
                     node_saida = nodo
-            if(nodo.saida == True):
-                print(nodo)
-            if(nodo.entrada == True):
-                print(nodo)
+            
 
     #print(lst_nodos)
     #print(list)
     #print(node_entrada)
     #print(node_saida)
     lista_adjacencia(lst_nodos)
-    print(caminha(node_entrada, node_saida))
+    print(caminha(node_saida, node_entrada))
 
 
 def lista_adjacencia(lst_nodos):
+    global node_saida
+    global node_entrada
     for i in range(len(lst_nodos)):
         #Se superior não tiver parede recebe o nodo acima ou None
         if lst_nodos[i].superior == '1':
@@ -96,7 +95,8 @@ def lista_adjacencia(lst_nodos):
         if lst_nodos[i].direita == '1':
             lst_nodos[i].direita = None
         else:
-            lst_nodos[i].direita = lst_nodos[i+1]
+            if(lst_nodos[i].direita != None):
+                lst_nodos[i].direita = lst_nodos[i+1]
 
         #Se inferior não tiver parede recebe o nodo abaixo ou None
         if lst_nodos[i].inferior == '1':
@@ -112,28 +112,29 @@ def caminha(node, saida):
 
     caminhamento.append(node)
     if node == saida:
+        print("cheguei")
         return res +1
     node.flag = 1
 
     if node.superior != None and node.superior.flag == 0:
-        print("cima")
         res = caminha(node.superior, saida)
         if res > 0:
+            print("cima")
             return 1 + res
     if node.direita != None and node.direita.flag == 0:
-        print("direita")
         res = caminha(node.direita, saida)
         if res > 0:
+            print("direita")
             return 1 + res
     if node.inferior != None and node.inferior.flag == 0:
-        print("desce")
         res = caminha(node.inferior, saida)
         if res > 0:
+            print("desce")
             return 1 + res
     if node.esquerda != None and node.esquerda.flag == 0:
-        print("esquerda")
         res = caminha(node.esquerda, saida)
         if res > 0:
+            print("esquerda")
             return 1 + res
 
     node.flag = 2
