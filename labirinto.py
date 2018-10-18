@@ -16,9 +16,17 @@ class Node:
     def __repr__(self):
      return str(self.__dict__)
 
+def svgline(x1,y1,x2,y2 ):
+    print("<polyline points={}, {} {}, {}/>".format(x1, y1, x2, y2));
+
+def svg(nm):
+    file = open("draw_lab.svg", "w")
+    file.write("<?xml version='1.0' standalone='no'?>");
+    file.write("<svg xmlns='http://www.w3.org/2000/svg' width='{}cm' height='{}cm' viewBox='-0.1 -0.1 {} {}'>".format(int(nm), int(nm), int(nm)+0.2, int(nm)+0.2));
+    file.write ( "<g style='stroke-width:.1; stroke:black; stroke-linejoin:miter; stroke-linecap:butt;'>" );
+    file.close()
 
 lst_nodos = []
-
 node_entrada = None
 node_saida = None
 
@@ -64,7 +72,7 @@ def labirinto(list):
                 else:
                     #nodo.saida = True
                     node_saida = nodo
-            
+
 
     #print(lst_nodos)
     #print(list)
@@ -155,6 +163,6 @@ def main ():
         elementos.append(elem[i-1])
         binary_string.append(list(map(lambda x:cvs.hex2bin(x),elem[i-1])))
     labirinto(binary_string)
-
+    svg(nm)
     #print(caminhamento)
 if __name__ == "__main__": main()
