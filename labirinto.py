@@ -29,29 +29,31 @@ def labirinto(list):
     global node_entrada
     global node_saida
     global lst_nodos
-    for i in range(len(list)):
-        for elem in list[i]:
+    for l in range(len(list)):
+        c = 0
+        for elem in list[l]:
             nodo = Node(elem[0],elem[1],elem[2],elem[3])
-            print()
-            if nodo.superior == '1':
-                file.write(svgline(i%int(nm), i, i%int(nm), i+1))
-            if nodo.esquerda == '1':
-                file.write(svgline(i%int(nm),i,i%int(nm)+1,i))
-            if nodo.direita == '1':
-                file.write(svgline(i%int(nm),i+1, i%int(nm)+1, i+1))
-            if nodo.inferior == '1':
-                file.write(svgline(i%int(nm)+1, i, i%int(nm)+1, i+1))
+            print(nodo)
+            if elem[0] == '1':
+                file.write(svgline(c, l , c + 1, l))
+            if elem[1] == '1':
+                file.write(svgline(c, l + 1, c + 1, l + 1))
+            if elem[2] == '1':
+                file.write(svgline(c , l , c , l + 1))
+            if elem[3] == '1':
+                file.write(svgline(c + 1, l , c + 1, l + 1))
 
+            c = c + 1
             lst_nodos.append(nodo)
             #Achar entrada e saida do labirinto <-- recebe None e seta o booleano do construtor
-            if i == 0:
+            if l == 0:
                 #Vazio para todos nodos na primeira linha
                 if nodo.superior == '0':
                     #nodo.entrada = True
                     node_entrada = nodo
                 nodo.superior = None
 
-            elif i == len(list)-1:
+            elif l == len(list)-1:
                 #Vazio para todos nodos na ultima linha
                 if nodo.inferior == '0':
                     #nodo.saida = True
@@ -80,10 +82,10 @@ def labirinto(list):
 
     #print(lst_nodos)
     #print(list)
-    print(node_entrada)
-    print(node_saida)
+    #print(node_entrada)
+    #print(node_saida)
     lista_adjacencia(lst_nodos)
-    print(caminha(node_entrada,node_saida))
+    print(caminha(node_saida, node_entrada))
 
 
 
@@ -136,23 +138,23 @@ def caminha(node, saida):
 
     if node.superior != None and node.superior.flag == 0:
         res = caminha(node.superior, saida)
-        if res >= 0:
-            print("cima")
+        if res > 0:
+            #print("cima")
             return 1 + res
     if node.direita != None and node.direita.flag == 0:
         res = caminha(node.direita, saida)
-        if res >= 0:
-            print("direita")
+        if res > 0:
+            #print("direita")
             return 1 + res
     if node.inferior != None and node.inferior.flag == 0:
         res = caminha(node.inferior, saida)
-        if res >= 0:
-            print("desce")
+        if res > 0:
+            #print("desce")
             return 1 + res
     if node.esquerda != None and node.esquerda.flag == 0:
         res = caminha(node.esquerda, saida)
-        if res >= 0:
-            print("esquerda")
+        if res > 0:
+            #print("esquerda")
             return 1 + res
 
     node.flag = 2
