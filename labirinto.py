@@ -33,15 +33,15 @@ def labirinto(list):
         c = 0
         for elem in list[l]:
             nodo = Node(elem[0],elem[1],elem[2],elem[3])
-            print(nodo)
+            #print(nodo)
             if elem[0] == '1':
                 file.write(svgline(c, l , c + 1, l))
             if elem[1] == '1':
-                file.write(svgline(c, l + 1, c + 1, l + 1))
+                file.write(svgline(c+1, l , c+1, l+1))
             if elem[2] == '1':
-                file.write(svgline(c , l , c , l + 1))
+                file.write(svgline(c , l+1 , c +1 , l + 1))
             if elem[3] == '1':
-                file.write(svgline(c + 1, l , c + 1, l + 1))
+                file.write(svgline(c, l , c, l + 1))
 
             c = c + 1
             lst_nodos.append(nodo)
@@ -114,6 +114,7 @@ def lista_adjacencia(lst_nodos):
             #file.write(svgline(i+1, i%int(nm), i+1, i%int(nm)+1))
             lst_nodos[i].direita = None
         else:
+                #e diferente da saida ou entrada
             if(lst_nodos[i].direita != None):
                 lst_nodos[i].direita = lst_nodos[i+1]
 
@@ -122,6 +123,7 @@ def lista_adjacencia(lst_nodos):
             #file.write(svgline(i, i%int(nm)+1, i+1, i%int(nm)+1))
             lst_nodos[i].inferior = None
         else:
+                #e diferente da saida ou entrada
             if(lst_nodos[i].inferior != None):
                 lst_nodos[i].inferior = lst_nodos[i+int(nm)]
 
@@ -162,7 +164,7 @@ def caminha(node, saida):
 
 nm = 0
 def main ():
-    f = open('t2-casos/teste.txt', 'r')
+    f = open('t2-casos/caso50a.txt', 'r')
     data = f.readlines()
     elem = []
     global nm
@@ -181,7 +183,7 @@ def main ():
 
     labirinto(binary_string)
 
-    file.write("<circle cx='11.5' cy='0.5' r='0.2' stroke='red' fill='red' />")
+    #file.write("<circle cx='11.5' cy='0.5' r='0.2' stroke='red' fill='red' />")
     file.write( "</g>" )
     file.write( "</svg>" )
     file.close()
