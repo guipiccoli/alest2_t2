@@ -92,7 +92,13 @@ res = 0
 def labirinto(list, linha, coluna):
     global res
     node = list[linha][coluna]
-    print(linha,coluna)
+
+    if node.saida == True :
+        print("cheguei")
+        return res +1
+        node.flag = 1
+
+
     if(node.elem[0] == '0'):
         if linha!=0:
             res = res + 1
@@ -110,10 +116,6 @@ def labirinto(list, linha, coluna):
             res = res + 1
             labirinto(list, linha, coluna-1)
 
-    if node.saida == True :
-        print("cheguei")
-        return res +1
-        node.flag = 1
 
 
 
