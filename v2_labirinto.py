@@ -134,7 +134,7 @@ def labirinto(list, linha, coluna):
 
 nm = 0
 def main ():
-    f = open('t2-casos/teste.txt', 'r')
+    f = open('t2-casos/caso50a.txt', 'r')
     global nm
     data = f.readlines()
     elem = []
