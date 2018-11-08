@@ -23,7 +23,6 @@ def svgCircle(x,y):
      return "<circle cx='{}' cy='{}' r='0.1' stroke='red' fill='red' />".format(x,y)
 
 def entrada_saida(list):
-    lst_nodes = []
     node_entrada = None
     node_saida = None
     for l in range(len(list)):
@@ -39,12 +38,14 @@ def entrada_saida(list):
                 file.write(svgline(c, l , c, l + 1))
 
             node = Node(elem)
+            list[l][c] = node
             #linha 0
             if l == 0:
                 if elem[0] == '0':
                     if node_entrada == None:
                         node.entrada = True
                         node_entrada = node
+                        linha, coluna = l,c
                     else:
                         node.saida = True
                         node_saida = node
@@ -55,6 +56,7 @@ def entrada_saida(list):
                     if node_entrada == None:
                         node.entrada = True
                         node_entrada = node
+                        linha, coluna = l,c
                     else:
                         node.saida = True
                         node_saida = node
@@ -65,6 +67,7 @@ def entrada_saida(list):
                     if node_entrada == None:
                         node.entrada = True
                         node_entrada = node
+                        linha, coluna = l,c
                     else:
                         node.saida = True
                         node_saida = node
@@ -75,58 +78,52 @@ def entrada_saida(list):
                     if node_entrada == None:
                         node.entrada = True
                         node_entrada = node
+                        linha, coluna = l,c
                     else:
                         node.saida = True
                         node_saida = node
 
-            lst_nodes.append(node)
             c = c + 1
 
-    labirinto(node_entrada)
+    #print(lst_nodes)
+    labirinto(list, linha, coluna)
 
-caminhamento = []
 res = 0
-def labirinto(node):
-
+def labirinto(list, linha, coluna):
     global res
+    node = list[linha][coluna]
+    print(linha,coluna)
+    if(node.elem[0] == '0'):
+        if linha!=0:
+            res = res + 1
+            labirinto(list, linha-1, coluna)
+    if(node.elem[1] == '0'):
+        if coluna!=len(list)-1:
+            res = res + 1
+            labirinto(list, linha, coluna+1)
+    if(node.elem[2] == '0'):
+        if linha!=len(list)-1:
+            res = res + 1
+            labirinto(list, linha+1, coluna)
+    if(node.elem[3] == '0'):
+        if coluna!=0:
+            res = res + 1
+            labirinto(list, linha, coluna-1)
+
     if node.saida == True :
         print("cheguei")
         return res +1
+        node.flag = 1
 
-    node.flag = 1
-
-    if node.superior == 0 and node.superior.flag == 0:
-        res = caminha(node.superior)
-        if res > 0:
-            print("cima")
-            return 1 + res
-    if node.direita == 0 and node.direita.flag == 0:
-        res = caminha(node.direita)
-        if res > 0:
-            print("direita")
-            return 1 + res
-    if node.inferior == 0 and node.inferior.flag == 0:
-        res = caminha(node.inferior)
-        if res > 0:
-            print("desce")
-            return 1 + res
-    if node.esquerda == 0 and node.esquerda.flag == 0:
-        res = caminha(node.esquerda)
-        if res > 0:
-            print("esquerda")
-            return 1 + res
-
-    node.flag = 2
-    return res
 
 
 
 nm = 0
 def main ():
     f = open('t2-casos/teste.txt', 'r')
+    global nm
     data = f.readlines()
     elem = []
-    global nm
     elementos = []
     binary_string =[]
     nm = data[0].split(' ')[0]
