@@ -20,7 +20,7 @@ def svgline(x1,y1,x2,y2 ):
      return "<polyline points='{}, {} {}, {}'/>".format(x1, y1, x2, y2)
 
 def svgCircle(x,y):
-     return "<circle cx='{}' cy='{}' r='0.1' stroke='red' fill='red' />".format(x,y)
+     return "<circle cx='{}' cy='{}' r='0.1' stroke='red' fill='red' />".format(x+0.5,y+0.5)
 
 def entrada_saida(list):
     node_entrada = None
@@ -93,7 +93,7 @@ def labirinto(list, linha, coluna):
     global res
     node = list[linha][coluna]
     if node.saida == True :
-        print("cheguei")
+        file.write(svgCircle(coluna,linha))
         return 1
 
     if node.flag == 1 or node.flag == 2:
@@ -103,34 +103,38 @@ def labirinto(list, linha, coluna):
 
     if(node.elem[0] == '0'):
         if linha!=0:
-
             res = labirinto(list, linha-1, coluna)
             if res >= 1:
+                file.write(svgCircle(coluna,linha))
                 return res + 1
     if(node.elem[1] == '0'):
         if coluna!=len(list)-1:
             res = labirinto(list, linha, coluna+1)
             if res >= 1:
+                file.write(svgCircle(coluna,linha))
                 return res + 1
     if(node.elem[2] == '0'):
         if linha!=len(list)-1:
             res = labirinto(list, linha+1, coluna)
             if res >= 1:
+                file.write(svgCircle(coluna,linha))
                 return res + 1
     if(node.elem[3] == '0'):
         if coluna!=0:
             res = labirinto(list, linha, coluna-1)
             if res >= 1:
+                file.write(svgCircle(coluna,linha))
                 return res + 1
 
     node.flag = 2
+    return 0
 
 
 
 
 nm = 0
 def main ():
-    f = open('t2-casos/caso25a.txt', 'r')
+    f = open('t2-casos/teste.txt', 'r')
     global nm
     data = f.readlines()
     elem = []
