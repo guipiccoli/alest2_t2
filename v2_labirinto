@@ -86,43 +86,51 @@ def entrada_saida(list):
             c = c + 1
 
     #print(lst_nodes)
-    labirinto(list, linha, coluna)
+    print(labirinto(list, linha, coluna))
 
 res = 0
 def labirinto(list, linha, coluna):
     global res
     node = list[linha][coluna]
-
     if node.saida == True :
         print("cheguei")
-        return res +1
-        node.flag = 1
+        return 1
 
+    if node.flag == 1 or node.flag == 2:
+        return 0
+
+    node.flag = 1
 
     if(node.elem[0] == '0'):
         if linha!=0:
-            res = res + 1
-            labirinto(list, linha-1, coluna)
+
+            res = labirinto(list, linha-1, coluna)
+            if res >= 1:
+                return res + 1
     if(node.elem[1] == '0'):
         if coluna!=len(list)-1:
-            res = res + 1
-            labirinto(list, linha, coluna+1)
+            res = labirinto(list, linha, coluna+1)
+            if res >= 1:
+                return res + 1
     if(node.elem[2] == '0'):
         if linha!=len(list)-1:
-            res = res + 1
-            labirinto(list, linha+1, coluna)
+            res = labirinto(list, linha+1, coluna)
+            if res >= 1:
+                return res + 1
     if(node.elem[3] == '0'):
         if coluna!=0:
-            res = res + 1
-            labirinto(list, linha, coluna-1)
+            res = labirinto(list, linha, coluna-1)
+            if res >= 1:
+                return res + 1
 
+    node.flag = 2
 
 
 
 
 nm = 0
 def main ():
-    f = open('t2-casos/teste.txt', 'r')
+    f = open('t2-casos/caso25a.txt', 'r')
     global nm
     data = f.readlines()
     elem = []
@@ -138,7 +146,7 @@ def main ():
         binary_string.append(list(map(lambda x:cvs.hex2bin(x),elem[i-1])))
 
     #print(elementos[:-1])
-    print(binary_string)
+    #print(binary_string)
     file.write("<?xml version='1.0' standalone='no'?>");
     file.write("<svg xmlns='http://www.w3.org/2000/svg' width='{}cm' height='{}cm' viewBox='-0.1 -0.1 {} {}'>".format(int(nm), int(nm), int(nm)+0.2, int(nm)+0.2));
     file.write ("<g style='stroke-width:.1; stroke:black; stroke-linejoin:miter; stroke-linecap:butt;'>");
