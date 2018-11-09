@@ -1,10 +1,5 @@
 import conversion as cvs
 import sys, os
-#1010
-#0 -Superior: Parede
-#1 - Direita: Sem parede
-#2 -Inferior: Parede
-#3 -Esquerda: Sem parede
 
 class Node:
     def __init__(self, elem):
@@ -84,7 +79,6 @@ def entrada_saida(list):
 
             c = c + 1
 
-    #print(lst_nodes)
     print("Nodo de entrada: ", node_entrada.elem)
     print("Nodo de saída: ", node_saida.elem)
     print("Tamanho do caminhamento: ", labirinto(list, linha, coluna))
@@ -161,8 +155,6 @@ def main ():
         elementos.append(elem[i-1])
         binary_string.append(list(map(lambda x:cvs.hex2bin(x),elem[i-1])))
 
-    #print(elementos[:-1])
-    #print(binary_string)
     file.write("<?xml version='1.0' standalone='no'?>");
     file.write("<svg xmlns='http://www.w3.org/2000/svg' width='{}cm' height='{}cm' viewBox='-0.1 -0.1 {} {}'>".format(int(n), int(m), int(n)+0.2, int(m)+0.2));
     file.write ("<g style='stroke-width:.1; stroke:black; stroke-linejoin:miter; stroke-linecap:butt;'>");
