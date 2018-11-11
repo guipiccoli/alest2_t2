@@ -1,5 +1,6 @@
 import conversion as cvs
 import sys, os
+import time
 
 class Node:
     def __init__(self, elem):
@@ -129,10 +130,11 @@ def labirinto(list, linha, coluna):
 
 file = open("draw_lab.svg", "w")
 def main ():
+    inicio = time.time()
     if len(sys.argv) == 1:
         print("ERRO! Parâmetro não especificado")
         print("Para rodar, utilize o seguinte comando, passando o caso de teste desejado sem a extensão .txt:")
-        print("$ python labirinto CASO_TESTE")
+        print("$ python labirinto.py CASO_TESTE")
         exit()
 
     caso = sys.argv[1]
@@ -166,6 +168,8 @@ def main ():
     file.write( "</g>" )
     file.write( "</svg>" )
     file.close()
+    fim = time.time()
+    print("Tempo de execução:", round(fim - inicio,4), "segundos")
 
 
 
